@@ -9,7 +9,7 @@
 
     // Node.js mode
     "moduleResolution": "node",
-    "outDir": "./dist",
+    "outDir": "./",
     "rootDir": "./",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

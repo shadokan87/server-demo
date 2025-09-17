@@ -6,6 +6,10 @@ out
 dist
 *.tgz
 
+# compiled JavaScript files in root
+index.js
+*.js.map
+
 # code coverage
 coverage
 *.lcov

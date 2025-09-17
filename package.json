@@ -2,13 +2,13 @@
   "name": "server-demo",
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "index.js",
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "tsc && node dist/index.js",
-    "clean": "rm -rf dist"
+    "start": "node index.js",
+    "dev": "tsc && node index.js",
+    "clean": "rm -f *.js *.js.map"
   },
   "engines": {
     "node": ">=18.0.0"
