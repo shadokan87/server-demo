@@ -11,6 +11,11 @@ const log = pino();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Route racine
+app.get("/", (req, res) => {
+  res.json({ message: "hello world" });
+});
+
 // Route /health
 app.get("/health", (req, res) => {
   const status = {
