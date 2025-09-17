@@ -1,12 +1,15 @@
 import express from "express";
-import fs from "fs";
 import pino from "pino";
+import dotenv from "dotenv";
 
-// Logger qui écrit dans server.log
-const log = pino(pino.destination("server.log"));
+// Load environment variables
+dotenv.config();
+
+// Logger qui écrit dans la console
+const log = pino();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Route /health
 app.get("/health", (req, res) => {
