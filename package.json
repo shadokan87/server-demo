@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "node index.js",
+    "start": "rm -rf index.js; node index.js",
     "dev": "tsc && node index.js",
     "clean": "rm -f *.js *.js.map"
   },
