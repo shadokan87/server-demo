@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "bun i && tsc",
     "start": "rm -rf index.js; node index.js",
     "dev": "tsc && node index.js",
     "clean": "rm -f *.js *.js.map"
