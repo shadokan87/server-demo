@@ -164,11 +164,13 @@ let failureIntervalId = -1;
 
 app.get("/failureOn", (req, res) => {
   // Actually disconnect and reconnect database every 10-15 seconds
-  if (failureIntervalId == -1)
+  if (failureIntervalId == -1) {
     failureIntervalId = Number(setInterval(() => {
       simulateRealDbFailure();
-    }, intervalMs * 2 + Math.random() * intervalMs));
+    }, intervalMs * 2));
     return res.json({message: "db failure activated"});
+  } else
+    return res.json({message: "db failure already active"});
 });
 
 app.get("/failureOff", async (req, res) => {
