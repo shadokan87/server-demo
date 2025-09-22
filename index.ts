@@ -26,7 +26,7 @@ function initDatabase() {
         reject(err);
       } else {
         log.info('Connected to SQLite database');
-        
+
         // Create users table
         db!.run(`CREATE TABLE IF NOT EXISTS users (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -71,7 +71,7 @@ async function simulateRealDbFailure() {
   if (db) {
     // Actually disconnect
     await disconnectDatabase();
-    
+
     // Simulate recovery after 3-5 seconds
     const recoveryTime = 3000 + Math.random() * 2000;
     setTimeout(async () => {
@@ -110,9 +110,9 @@ app.get("/health", (req, res) => {
 app.get("/users", (req, res) => {
   if (!db) {
     log.error("Attempted to query users but database is not connected");
-    return res.status(503).json({ 
+    return res.status(503).json({
       error: "Database connection not available",
-      message: "Service temporarily unavailable" 
+      message: "Service temporarily unavailable"
     });
   }
 
@@ -121,7 +121,7 @@ app.get("/users", (req, res) => {
       log.error({ error: err.message }, "Failed to query users");
       return res.status(500).json({ error: "Database query failed" });
     }
-    
+
     log.info({ count: rows.length }, "Retrieved users from database");
     res.json({ users: rows });
   });
@@ -130,33 +130,54 @@ app.get("/users", (req, res) => {
 // Route to create a user (will fail when db is actually down)
 app.post("/users", (req, res) => {
   const { name, email } = req.body;
-  
+
   if (!name || !email) {
     return res.status(400).json({ error: "Name and email are required" });
   }
 
   if (!db) {
     log.error("Attempted to create user but database is not connected");
-    return res.status(503).json({ 
+    return res.status(503).json({
       error: "Database connection not available",
-      message: "Service temporarily unavailable" 
+      message: "Service temporarily unavailable"
     });
   }
 
-  db.run("INSERT INTO users (name, email) VALUES (?, ?)", [name, email], function(err) {
+  db.run("INSERT INTO users (name, email) VALUES (?, ?)", [name, email], function (err) {
     if (err) {
       log.error({ error: err.message, name, email }, "Failed to create user");
       return res.status(500).json({ error: "Failed to create user" });
     }
-    
+
     log.info({ userId: this.lastID, name, email }, "Created new user");
-    res.status(201).json({ 
-      id: this.lastID, 
-      name, 
-      email, 
-      message: "User created successfully" 
+    res.status(201).json({
+      id: this.lastID,
+      name,
+      email,
+      message: "User created successfully"
     });
   });
+});
+
+const intervalMs = 5000; // 5 seconds
+let failureIntervalId = -1;
+
+app.get("/failureOn", (req, res) => {
+  // Actually disconnect and reconnect database every 10-15 seconds
+  if (failureIntervalId == -1)
+    failureIntervalId = Number(setInterval(() => {
+      simulateRealDbFailure();
+    }, intervalMs * 2 + Math.random() * intervalMs));
+    return res.json({message: "db failure activated"});
+});
+
+app.get("/failureOff", async (req, res) => {
+  // Actually disconnect and reconnect database every 10-15 seconds
+  if (failureIntervalId != -1) {
+    clearInterval(failureIntervalId);
+    await initDatabase();
+  }
+    return res.json({message: "db failure deactivated"});
 });
 
 // Initialize database on startup
@@ -170,7 +191,7 @@ app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
-const intervalMs = 5000; // 5 seconds
+
 setInterval(() => {
   const status = {
     uptime: process.uptime(),
@@ -180,8 +201,3 @@ setInterval(() => {
   };
   log.info({ status }, "Periodic server status");
 }, intervalMs);
-
-// Actually disconnect and reconnect database every 10-15 seconds
-setInterval(() => {
-  simulateRealDbFailure();
-}, intervalMs * 2 + Math.random() * intervalMs);
