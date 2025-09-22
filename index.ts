@@ -61,6 +61,7 @@ function disconnectDatabase() {
         resolve();
       });
     } else {
+      console.error("Database connection failure");
       resolve();
     }
   });
