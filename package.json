@@ -5,8 +5,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "build": "bun i && tsc",
-    "start": "node index.js",
+    "build": "bun i",
+    "start": "bun index.ts",
     "dev": "tsc && node index.js",
     "clean": "rm -f *.js *.js.map"
   },
