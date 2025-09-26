@@ -78,7 +78,7 @@ async function simulateRealDbFailure() {
     setTimeout(async () => {
       try {
         await initDatabase();
-        log.info("Database connection recovered");
+        // log.info("Database connection recovered");
       } catch (err) {
         log.error({ error: err }, "Failed to recover database connection");
       }
