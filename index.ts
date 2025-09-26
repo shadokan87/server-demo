@@ -178,6 +178,7 @@ app.get("/failureOff", async (req, res) => {
   // Actually disconnect and reconnect database every 10-15 seconds
   if (failureIntervalId != -1) {
     clearInterval(failureIntervalId);
+    failureIntervalId = -1;
     await initDatabase();
   }
     return res.json({message: "db failure deactivated"});
