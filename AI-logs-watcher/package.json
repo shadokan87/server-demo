@@ -1,0 +1,86 @@
+{
+  "name": "@shadokan87/ai-logs-watcher",
+  "version": "0.2.6",
+  "description": "AI-powered log monitoring and alerting system with SMS notifications via Twilio",
+  "main": "./dist/main.index.js",
+  "module": "./dist/main.index.js",
+  "types": "./dist/main.index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./exceptions": {
+      "import": "./dist/exceptions/index.js",
+      "types": "./dist/exceptions/index.d.ts"
+    },
+    "./voice": {
+      "import": "./dist/voice/index.js",
+      "types": "./dist/voice/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "ai",
+    "logs",
+    "monitoring",
+    "alerting",
+    "sms",
+    "twilio",
+    "log-analysis",
+    "artificial-intelligence",
+    "typescript"
+  ],
+  "author": {
+    "name": "shadokan87",
+    "url": "https://github.com/shadokan87"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shadokan87/AI-logs-watcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shadokan87/AI-logs-watcher/issues"
+  },
+  "homepage": "https://github.com/shadokan87/AI-logs-watcher#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/ws": "^8.18.1",
+    "esbuild-plugin-file-path-extensions": "^2.1.4",
+    "tsx": "^4.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.15.0",
+    "dotenv": "^17.2.2",
+    "elevenlabs": "^1.59.0",
+    "esbuild": "^0.25.9",
+    "nanoid": "^5.1.5",
+    "twilio": "^5.9.0",
+    "ws": "^8.18.3",
+    "zod": "^3.25.67",
+    "openai": "^5.6.0"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "update:fragola": "bun run updateFragolaSDK.ts",
+    "build": "bun install && bun build.ts",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
